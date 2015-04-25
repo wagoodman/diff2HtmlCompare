@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <!-- 
+          html_title:    browser tab title
+          reset_css:     relative path to reset css file
+          pygments_css:  relative path to pygments css file
+          diff_css:      relative path to diff layout css file
+          page_title:    title shown at the top of the page. This should be the filename of the files being diff'd
+          original_code: full html contents of original file
+          modified_code: full html contents of modified file
+          jquery_js:     path to jquery.min.js
+          diff_js:       path to diff.js
+          comment_js:    path to comment.js
+        -->
+        <meta charset="utf-8">
+        <title>
+            %(html_title)s
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="%(reset_css)s" type="text/css">
+        <link class="syntaxdef" rel="stylesheet" href="%(pygments_css)s" type="text/css">
+        <link rel="stylesheet" href="%(diff_css)s" type="text/css">
+    </head>
+    <body>
+        <div class="" id="topbar">
+          <div id="filetitle"> 
+            <!--&#10140;&nbsp;&nbsp;-->%(page_title)s
+          </div>
+          <div class="switches">
+            <div class="switch">
+              <input id="showoriginal" class="toggle toggle-yes-no menuoption" type="checkbox" checked>
+              <label for="showoriginal" data-on="&#10004; Original" data-off="Original"></label>
+            </div>
+            <div class="switch">
+              <input id="showmodified" class="toggle toggle-yes-no menuoption" type="checkbox" checked>
+              <label for="showmodified" data-on="&#10004; Modified" data-off="Modified"></label>
+            </div>
+            <div class="switch">
+              <input id="highlight" class="toggle toggle-yes-no menuoption" type="checkbox" checked>
+              <label for="highlight" data-on="&#10004; Highlight" data-off="Highlight"></label>
+            </div>
+            <div class="switch">
+              <input id="codeprintmargin" class="toggle toggle-yes-no menuoption" type="checkbox" checked>
+              <label for="codeprintmargin" data-on="&#10004; Margin" data-off="Margin"></label>
+            </div>
+            <div class="switch">
+              <input id="dosyntaxhighlight" class="toggle toggle-yes-no menuoption" type="checkbox" checked>
+              <label for="dosyntaxhighlight" data-on="&#10004; Syntax" data-off="Syntax"></label>
+            </div>
+          </div>
+        </div>
+        <div id="maincontainer" class="">
+            <div id="leftcode" class="left-inner-shadow codebox divider-outside-bottom">
+                <div class="codefiletab">
+                    &#10092; Original
+                </div>
+                <div class="printmargin">
+                    01234567890123456789012345678901234567890123456789012345678901234567890123456789
+                </div>
+                %(original_code)s
+            </div>
+            <div id="rightcode" class="left-inner-shadow codebox divider-outside-bottom">
+                <div class="codefiletab">
+                    &#10093; Modified
+                </div>
+                <div class="printmargin">
+                    01234567890123456789012345678901234567890123456789012345678901234567890123456789
+                </div>
+                %(modified_code)s
+            </div>
+        </div>
+<script src="%(jquery_js)s" type="text/javascript"></script>
+<script src="%(diff_js)s" type="text/javascript"></script>
+<!--<script src="%(comment_js)s"></script>-->
+    </body>
+</html>

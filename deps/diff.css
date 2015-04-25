@@ -1,0 +1,243 @@
+body {
+  font-size: 100%;
+  font-family: monospace;
+}
+.left-inner-shadow {
+  position: relative;
+  overflow: hidden;
+}
+.left-inner-shadow:before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 10px;
+  top: 5%;
+  height: 90%;
+  left: -10px;
+  border-radius: 5px / 100px;
+  box-shadow: 0 0 13px rgba(0, 0, 0, 0.5);
+}
+.divider-outside-bottom {
+  box-shadow: 0px 10px 5px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* 
+These styles are used to highlight each diff line.
+Note: for partial like highlight change to "display:block-inline" 
+*/
+span.left_diff_change {
+  background-color: #FFE5B5;
+  display: block
+}
+span.left_diff_add {
+  background-color: #eeeeee;
+  display: block
+}
+span.left_diff_del {
+  background-color: #ffdddd;
+  display: block
+}
+span.lineno_q {
+  display: block;
+}
+span.right_diff_change {
+  background-color: #FFE5B5;
+  display: block
+}
+span.right_diff_add {
+  background-color: #ddffdd;
+  display: block
+}
+span.right_diff_del {
+  background-color: #eeeeee;
+  display: block
+}
+span.clearbg {
+  background-color: transparent;
+}
+/* 
+These styles are used to modify the containing area is placed/displayed.
+*/
+.printmargin {
+  display: block;
+  line-height: 0;
+  height: 0;
+  overflow: hidden;
+  margin: 0 0 0 35px;
+  color: transparent;
+  border: 0;
+}
+.printmargin:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  z-index: 1;
+  top: 47px;
+  bottom: 0;
+  border-right: 1px dashed #777;
+}
+
+#topbar {
+  font-family: calibri, "Trebuchet MS", Helvetica, sans-serif;
+  background-color: #555;
+  border-bottom: 0px solid #999;
+  padding: 0;
+  position:fixed;
+  top:0;
+  height: 30px;
+  width:100%;
+  z-index:100;
+}
+
+#filetitle {
+  display: inline-block;
+  font-weight: bold;
+  color: #eee;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  vertical-align: top;
+  padding: 0 50px 0 10px;
+  font-size: 16px;
+}
+
+/*Toggle buttons*/
+.switches {
+  float: right;
+}
+.switch {
+  display: inline-block;
+  
+}
+
+.toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.toggle-yes-no + label {
+  width: 100px;
+  height: 30px;
+}
+input.toggle-yes-no + label:before, input.toggle-yes-no + label:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  line-height: 30px;
+}
+input.toggle-yes-no + label:before {
+  background-color:  rgba(180, 180, 180, 0.5); /*#dddddd;*/
+  color: #ccc;
+  content: attr(data-off);
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  transition: transform 0.5s;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+input.toggle-yes-no + label:after {
+  background-color:  rgba(180, 180, 180, 0.3);/*#8ce196;*/
+  color: #FFDD1C;
+  content: attr(data-on);
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  transition: transform 0.5s;
+  -webkit-transform: rotateX(180deg);
+  -moz-transform: rotateX(180deg);
+  -ms-transform: rotateX(180deg);
+  -o-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+input.toggle-yes-no:checked + label:before {
+  -webkit-transform: rotateX(180deg);
+  -moz-transform: rotateX(180deg);
+  -ms-transform: rotateX(180deg);
+  -o-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+}
+input.toggle-yes-no:checked + label:after {
+  -webkit-transform: rotateX(0);
+  -moz-transform: rotateX(0);
+  -ms-transform: rotateX(0);
+  -o-transform: rotateX(0);
+  transform: rotateX(0);
+}
+/*end Toggle buttons*/
+
+
+div#maincontainer {
+  overflow-x: auto;
+  width: 106em;
+  margin: 20px 0 0 15px;
+}
+.codefiletab {
+  font-family: calibri, "Trebuchet MS", Helvetica, sans-serif;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 0 0 10px 5px;
+  width:100%;
+  font-weight: bold;
+}
+div#leftcode {
+  width: 50%;
+  overflow-x: auto;
+}
+div#rightcode {
+  width: 50%;
+  overflow-x: auto;
+}
+div.codebox {
+  float: left;
+  display: block;
+  padding-top: 20px;
+}
+div.codebox table {
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+div.linenodiv {
+  text-align: right
+}
+td.linenos {
+  background: #ddd;
+  padding: 0 5px 0 5px;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+td.code {
+  width: 80em;
+}
+span.lineno {
+  background-color: transparent;
+  padding: 0;
+}
