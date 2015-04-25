@@ -7,8 +7,8 @@ A python script that takes two files and compares the differences between them (
 diff2HtmlCompare.py [-h] [-v] file1 file2
 
 positional arguments:
-  file1       source file to compare ("before" file).
-  file2       source file to compare ("after" file).
+  file1       file to compare ("before" file).
+  file2       file to compare ("after" file).
 
 optional arguments:
   -h, --help  show this help message and exit
