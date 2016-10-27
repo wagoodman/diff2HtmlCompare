@@ -204,14 +204,26 @@ class CodeDiff(object):
       self.filename = name
       self.fromfile = fromfile
       if fromtxt == None:
-         self.fromlines = open(fromfile, 'U').readlines()
+         try:
+            with open(fromfile) as f:
+               self.fromlines = f.readlines()
+         except Exception as e:
+            print "Problem reading file %s" % fromfile
+            print e
+            sys.exit(1)
       else:
          self.fromlines = [n + "\n" for n in fromtxt.split("\n")]
       self.leftcode = "".join(self.fromlines)
       
       self.tofile = tofile
       if totxt == None:
-         self.tolines = open(tofile, 'U').readlines()
+         try:
+            with open(tofile) as f:
+               self.tolines = f.readlines()
+         except Exception as e:
+            print "Problem reading file %s" % tofile
+            print e
+            sys.exit(1)
       else:
          self.tolines = [n + "\n" for n in totxt.split("\n")]
       self.rightcode = "".join(self.tolines)
