@@ -173,10 +173,7 @@ class CodeDiff(object):
    diffCssFile="./deps/diff.css"
    diffJsFile="./deps/diff.js"
    resetCssFile="./deps/reset.css"
-   semanticCssFile="./deps/semantic.min.css"
-   semanticJsFile="./deps/semantic.min.js"
    jqueryJsFile="./deps/jquery.min.js"
-   commentJsFile="./deps/comment.js"
    
 
    def __init__(self, fromfile, tofile, fromtxt=None, totxt=None, name=None):
@@ -259,17 +256,14 @@ class CodeDiff(object):
 
       answers = {
         "html_title":     self.filename,
-        "reset_css":   self.resetCssFile,
+        "reset_css":      self.resetCssFile,
         "pygments_css":   self.pygmentsCssFile,
         "diff_css":       self.diffCssFile,
-        "semantic_css":   self.semanticCssFile,
         "page_title":     self.filename,
         "original_code":  codeContents[0],
         "modified_code":  codeContents[1],
         "jquery_js":      self.jqueryJsFile,
-        "semantic_js":    self.semanticJsFile,
         "diff_js":        self.diffJsFile,
-        "comment_js":     self.commentJsFile,
       }
 
       self.htmlContents = diffTemplate % answers 
