@@ -1,3 +1,26 @@
+# MIT License
+# 
+# Copyright (c) 2016 Alex Goodman
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of
+# this software and associated documentation files (the "Software"), to deal in
+# the Software without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+# of the Software, and to permit persons to whom the Software is furnished to do
+# so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+
 import sys
 import difflib
 import argparse
@@ -173,10 +196,7 @@ class CodeDiff(object):
    diffCssFile="./deps/diff.css"
    diffJsFile="./deps/diff.js"
    resetCssFile="./deps/reset.css"
-   semanticCssFile="./deps/semantic.min.css"
-   semanticJsFile="./deps/semantic.min.js"
    jqueryJsFile="./deps/jquery.min.js"
-   commentJsFile="./deps/comment.js"
    
 
    def __init__(self, fromfile, tofile, fromtxt=None, totxt=None, name=None):
@@ -184,14 +204,26 @@ class CodeDiff(object):
       self.filename = name
       self.fromfile = fromfile
       if fromtxt == None:
-         self.fromlines = open(fromfile, 'U').readlines()
+         try:
+            with open(fromfile) as f:
+               self.fromlines = f.readlines()
+         except Exception as e:
+            print "Problem reading file %s" % fromfile
+            print e
+            sys.exit(1)
       else:
          self.fromlines = [n + "\n" for n in fromtxt.split("\n")]
       self.leftcode = "".join(self.fromlines)
       
       self.tofile = tofile
       if totxt == None:
-         self.tolines = open(tofile, 'U').readlines()
+         try:
+            with open(tofile) as f:
+               self.tolines = f.readlines()
+         except Exception as e:
+            print "Problem reading file %s" % tofile
+            print e
+            sys.exit(1)
       else:
          self.tolines = [n + "\n" for n in totxt.split("\n")]
       self.rightcode = "".join(self.tolines)
@@ -259,17 +291,14 @@ class CodeDiff(object):
 
       answers = {
         "html_title":     self.filename,
-        "reset_css":   self.resetCssFile,
+        "reset_css":      self.resetCssFile,
         "pygments_css":   self.pygmentsCssFile,
         "diff_css":       self.diffCssFile,
-        "semantic_css":   self.semanticCssFile,
         "page_title":     self.filename,
         "original_code":  codeContents[0],
         "modified_code":  codeContents[1],
         "jquery_js":      self.jqueryJsFile,
-        "semantic_js":    self.semanticJsFile,
         "diff_js":        self.diffJsFile,
-        "comment_js":     self.commentJsFile,
       }
 
       self.htmlContents = diffTemplate % answers 
