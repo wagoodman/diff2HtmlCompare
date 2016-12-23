@@ -2,7 +2,12 @@
 
 A python script that takes two files and compares the differences between them (side-by-side) in an HTML format.
 
-###Usage
+### Installation
+```
+pip install -r requirements.txt
+```
+
+### Usage
 ```
 diff2HtmlCompare.py [-h] [-v] file1 file2
 
