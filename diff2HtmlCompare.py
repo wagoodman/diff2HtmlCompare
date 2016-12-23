@@ -394,11 +394,21 @@ def main(fromfile, tofile, verbose=False):
     codeDiff.write()
 
 
+def show():
+    import os
+    import webbrowser
+
+    path = os.path.abspath('index.html')
+    webbrowser.open('file://' + path)
+
+
 if __name__ == "__main__":
     description = """Given two source files this application\
 creates an html page which highlights the differences between the two. """
 
     parser = argparse.ArgumentParser(description=description)
+    parser.add_argument('-s', '--show', action='store_true',
+                        help='show html in a browser.')
     parser.add_argument('-v', action='store_true', help='show verbose output.')
     parser.add_argument(
         'file1', help='source file to compare ("before" file).')
@@ -407,3 +417,5 @@ creates an html page which highlights the differences between the two. """
     args = parser.parse_args()
 
     main(args.file1, args.file2, args.v)
+    if args.show:
+        show()
