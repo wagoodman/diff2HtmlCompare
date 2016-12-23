@@ -24,7 +24,7 @@
 import sys
 import difflib
 import argparse
-import StringIO
+import io
 import pygments
 from pygments.lexers import guess_lexer_for_filename
 from pygments.lexer import RegexLexer
@@ -147,7 +147,7 @@ class DiffHtmlFormatter(HtmlFormatter):
 
 
    def _wrap_tablelinenos(self, inner):
-      dummyoutfile = StringIO.StringIO()
+      dummyoutfile = io.StringIO()
       lncount = 0
       for t, line in inner:
          if t:
@@ -208,8 +208,8 @@ class CodeDiff(object):
             with open(fromfile) as f:
                self.fromlines = f.readlines()
          except Exception as e:
-            print "Problem reading file %s" % fromfile
-            print e
+            print("Problem reading file %s" % fromfile)
+            print(e)
             sys.exit(1)
       else:
          self.fromlines = [n + "\n" for n in fromtxt.split("\n")]
@@ -221,8 +221,8 @@ class CodeDiff(object):
             with open(tofile) as f:
                self.tolines = f.readlines()
          except Exception as e:
-            print "Problem reading file %s" % tofile
-            print e
+            print("Problem reading file %s" % tofile)
+            print(e)
             sys.exit(1)
       else:
          self.tolines = [n + "\n" for n in totxt.split("\n")]
@@ -261,7 +261,7 @@ class CodeDiff(object):
 
       if verbose:
          for diff in self.diffs:
-            print "%-6s %-80s %-80s" % ( diff[2], diff[0], diff[1] )
+            print("%-6s %-80s %-80s" % ( diff[2], diff[0], diff[1] ))
 
       fields = ( (self.leftcode, True, self.fromfile) , (self.rightcode, False, self.tofile) )
 
@@ -279,7 +279,7 @@ class CodeDiff(object):
             
          except pygments.util.ClassNotFound:
             if verbose:
-               print "No Lexer Found! Using default..."
+               print("No Lexer Found! Using default...")
 
             self.lexer = DefaultLexer()
          
