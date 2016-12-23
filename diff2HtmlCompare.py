@@ -20,12 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
+import io
+import os
 import sys
 import difflib
 import argparse
-import io
 import pygments
+import webbrowser
 from pygments.lexers import guess_lexer_for_filename
 from pygments.lexer import RegexLexer
 from pygments.formatters import HtmlFormatter
@@ -178,7 +179,6 @@ class DiffHtmlFormatter(HtmlFormatter):
         return retlinenos
 
     def _wrap_code(self, source):
-
         source = list(source)
         yield 0, '<pre>'
 
@@ -281,7 +281,6 @@ class CodeDiff(object):
     jqueryJsFile = "./deps/jquery.min.js"
 
     def __init__(self, fromfile, tofile, fromtxt=None, totxt=None, name=None):
-
         self.filename = name
         self.fromfile = fromfile
         if fromtxt == None:
@@ -310,7 +309,6 @@ class CodeDiff(object):
         self.rightcode = "".join(self.tolines)
 
     def getDiffDetails(self, fromdesc='', todesc='', context=False, numlines=5, tabSize=8):
-
         # change tabs to spaces before it gets more difficult after we insert
         # markkup
         def expand_tabs(line):
@@ -382,25 +380,20 @@ class CodeDiff(object):
 
         self.htmlContents = HTML_TEMPLATE % answers
 
-    def write(self, path="index.html"):
+    def write(self, path):
         fh = open(path, 'w')
         fh.write(self.htmlContents)
         fh.close()
 
 
-def main(fromfile, tofile, verbose=False):
-    codeDiff = CodeDiff(fromfile, tofile, name=tofile)
+def main(file1, file2, outputpath, verbose=False):
+    codeDiff = CodeDiff(file1, file2, name=file2)
     codeDiff.format(verbose)
-    codeDiff.write()
+    codeDiff.write(outputpath)
 
-
-def show():
-    import os
-    import webbrowser
-
-    path = os.path.abspath('index.html')
+def show(outputpath):
+    path = os.path.abspath(outputpath)
     webbrowser.open('file://' + path)
-
 
 if __name__ == "__main__":
     description = """Given two source files this application\
@@ -410,12 +403,12 @@ creates an html page which highlights the differences between the two. """
     parser.add_argument('-s', '--show', action='store_true',
                         help='show html in a browser.')
     parser.add_argument('-v', action='store_true', help='show verbose output.')
-    parser.add_argument(
-        'file1', help='source file to compare ("before" file).')
+    parser.add_argument('file1', help='source file to compare ("before" file).')
     parser.add_argument('file2', help='source file to compare ("after" file).')
 
     args = parser.parse_args()
 
-    main(args.file1, args.file2, args.v)
+    outputpath = "index.html"
+    main(args.file1, args.file2, outputpath, verbose=args.v)
     if args.show:
-        show()
+        show(outputpath)
