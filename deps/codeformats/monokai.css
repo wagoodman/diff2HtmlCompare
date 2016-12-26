@@ -62,3 +62,59 @@ body .vc { color: #f8f8f2 } /* Name.Variable.Class */
 body .vg { color: #f8f8f2 } /* Name.Variable.Global */
 body .vi { color: #f8f8f2 } /* Name.Variable.Instance */
 body .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+
+/* Override the surrounding theme to match a dark theme*/
+
+#topbar {
+	 background: #272822; 
+	 color: #f8f8f2
+}
+td.linenos {
+  background: #272822;
+  padding: 0 5px 0 5px;
+  border-right: 1px solid #272822;
+  border-left: 1px solid #272822;
+  border-top: 1px solid #272822;
+}
+
+div.codebox table {
+  border-right: 0px solid #272822;
+  border-left: 0px solid #272822;
+  border-top: 0px solid #272822;
+  border-bottom: 0px solid #272822;
+}
+
+/* 
+These styles are used to highlight each diff line.
+Note: for partial like highlight change to "display:block-inline" 
+*/
+span.left_diff_change {
+  background-color: #FFCF74;
+  display: block
+}
+span.left_diff_add {
+  background-color: #B1B1B1;
+  display: block
+}
+span.left_diff_del {
+  background-color: #FF6B6B;
+  display: block
+}
+span.lineno_q {
+  display: block;
+}
+span.right_diff_change {
+  background-color: #FFCF74;
+  display: block
+}
+span.right_diff_add {
+  background-color: #83FF83;
+  display: block
+}
+span.right_diff_del {
+  background-color: #B1B1B1;
+  display: block
+}
+span.clearbg {
+  background-color: transparent;
+}

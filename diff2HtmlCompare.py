@@ -32,6 +32,9 @@ from pygments.lexer import RegexLexer
 from pygments.formatters import HtmlFormatter
 from pygments.token import *
 
+# Monokai is not quite right yet
+PYGMENTS_STYLES = ["vs", "xcode"] 
+
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html class="no-js">
@@ -55,13 +58,13 @@ HTML_TEMPLATE = """
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="%(reset_css)s" type="text/css">
-        <link class="syntaxdef" rel="stylesheet" href="%(pygments_css)s" type="text/css">
         <link rel="stylesheet" href="%(diff_css)s" type="text/css">
+        <link class="syntaxdef" rel="stylesheet" href="%(pygments_css)s" type="text/css">
     </head>
     <body>
         <div class="" id="topbar">
           <div id="filetitle"> 
-            <!--&#10140;&nbsp;&nbsp;-->%(page_title)s
+            %(page_title)s
           </div>
           <div class="switches">
             <div class="switch">
@@ -86,7 +89,7 @@ HTML_TEMPLATE = """
             </div>
           </div>
         </div>
-        <div id="maincontainer" class="">
+        <div id="maincontainer" class="%(page_width)s">
             <div id="leftcode" class="left-inner-shadow codebox divider-outside-bottom">
                 <div class="codefiletab">
                     &#10092; Original
@@ -273,8 +276,7 @@ class CodeDiff(object):
     Manages a pair of source files and generates a single html diff page comparing
     the contents.
     """
-    pygmentsStyleOpt = "vs"
-    pygmentsCssFile = "./deps/codeformats/%s.css" % pygmentsStyleOpt
+    pygmentsCssFile = "./deps/codeformats/%s.css"
     diffCssFile = "./deps/diff.css"
     diffJsFile = "./deps/diff.js"
     resetCssFile = "./deps/reset.css"
@@ -334,10 +336,10 @@ class CodeDiff(object):
                                linejunk=None, charjunk=difflib.IS_CHARACTER_JUNK)
         return list(diffs)
 
-    def format(self, verbose=False):
+    def format(self, options):
         self.diffs = self.getDiffDetails(self.fromfile, self.tofile)
 
-        if verbose:
+        if options.verbose:
             for diff in self.diffs:
                 print("%-6s %-80s %-80s" % (diff[2], diff[0], diff[1]))
 
@@ -351,13 +353,13 @@ class CodeDiff(object):
                                      self.diffs,
                                      nobackground=False,
                                      linenos=True,
-                                     style=self.pygmentsStyleOpt)
+                                     style=options.syntax_css)
 
             try:
                 self.lexer = guess_lexer_for_filename(self.filename, code)
 
             except pygments.util.ClassNotFound:
-                if verbose:
+                if options.verbose:
                     print("No Lexer Found! Using default...")
 
                 self.lexer = DefaultLexer()
@@ -369,13 +371,14 @@ class CodeDiff(object):
         answers = {
             "html_title":     self.filename,
             "reset_css":      self.resetCssFile,
-            "pygments_css":   self.pygmentsCssFile,
+            "pygments_css":   self.pygmentsCssFile % options.syntax_css,
             "diff_css":       self.diffCssFile,
             "page_title":     self.filename,
             "original_code":  codeContents[0],
             "modified_code":  codeContents[1],
             "jquery_js":      self.jqueryJsFile,
             "diff_js":        self.diffJsFile,
+            "page_width":     "page-80-width" if options.print_width else "page-full-width"
         }
 
         self.htmlContents = HTML_TEMPLATE % answers
@@ -386,9 +389,9 @@ class CodeDiff(object):
         fh.close()
 
 
-def main(file1, file2, outputpath, verbose=False):
+def main(file1, file2, outputpath, options):
     codeDiff = CodeDiff(file1, file2, name=file2)
-    codeDiff.format(verbose)
+    codeDiff.format(options)
     codeDiff.write(outputpath)
 
 def show(outputpath):
@@ -402,13 +405,20 @@ creates an html page which highlights the differences between the two. """
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-s', '--show', action='store_true',
                         help='show html in a browser.')
-    parser.add_argument('-v', action='store_true', help='show verbose output.')
+    parser.add_argument('-p', '--print-width', action='store_true', 
+        help='Restrict code to 80 columns wide. (printer friendly in landscape)')
+    parser.add_argument('-c', '--syntax-css', action='store', default="vs",
+        help='Pygments CSS for code syntax highlighting. Can be one of: %s' % str(PYGMENTS_STYLES))
+    parser.add_argument('-v', '--verbose', action='store_true', help='show verbose output.')
     parser.add_argument('file1', help='source file to compare ("before" file).')
     parser.add_argument('file2', help='source file to compare ("after" file).')
 
     args = parser.parse_args()
 
+    if args.syntax_css not in PYGMENTS_STYLES:
+        raise ValueError("Syntax CSS (-c) must be one of %r." % PYGMENTS_STYLES)
+
     outputpath = "index.html"
-    main(args.file1, args.file2, outputpath, verbose=args.v)
+    main(args.file1, args.file2, outputpath, args)
     if args.show:
         show(outputpath)

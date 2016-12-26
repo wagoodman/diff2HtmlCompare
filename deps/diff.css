@@ -22,40 +22,6 @@ body {
 }
 
 /* 
-These styles are used to highlight each diff line.
-Note: for partial like highlight change to "display:block-inline" 
-*/
-span.left_diff_change {
-  background-color: #FFE5B5;
-  display: block
-}
-span.left_diff_add {
-  background-color: #eeeeee;
-  display: block
-}
-span.left_diff_del {
-  background-color: #ffdddd;
-  display: block
-}
-span.lineno_q {
-  display: block;
-}
-span.right_diff_change {
-  background-color: #FFE5B5;
-  display: block
-}
-span.right_diff_add {
-  background-color: #ddffdd;
-  display: block
-}
-span.right_diff_del {
-  background-color: #eeeeee;
-  display: block
-}
-span.clearbg {
-  background-color: transparent;
-}
-/* 
 These styles are used to modify the containing area is placed/displayed.
 */
 .printmargin {
@@ -194,8 +160,13 @@ input.toggle-yes-no:checked + label:after {
 
 div#maincontainer {
   overflow-x: auto;
-  width: 106em;
   margin: 20px 0 0 15px;
+}
+.page-80-width {
+  width: 106em;
+}
+.page-full-width {
+  width: auto;
 }
 .codefiletab {
   font-family: calibri, "Trebuchet MS", Helvetica, sans-serif;

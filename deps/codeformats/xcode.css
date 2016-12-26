@@ -55,3 +55,38 @@ body .vc { color: #000000 } /* Name.Variable.Class */
 body .vg { color: #000000 } /* Name.Variable.Global */
 body .vi { color: #000000 } /* Name.Variable.Instance */
 body .il { color: #1C01CE } /* Literal.Number.Integer.Long */
+
+/* 
+These styles are used to highlight each diff line.
+Note: for partial like highlight change to "display:block-inline" 
+*/
+span.left_diff_change {
+  background-color: #FFE5B5;
+  display: block
+}
+span.left_diff_add {
+  background-color: #eeeeee;
+  display: block
+}
+span.left_diff_del {
+  background-color: #ffdddd;
+  display: block
+}
+span.lineno_q {
+  display: block;
+}
+span.right_diff_change {
+  background-color: #FFE5B5;
+  display: block
+}
+span.right_diff_add {
+  background-color: #ddffdd;
+  display: block
+}
+span.right_diff_del {
+  background-color: #eeeeee;
+  display: block
+}
+span.clearbg {
+  background-color: transparent;
+}

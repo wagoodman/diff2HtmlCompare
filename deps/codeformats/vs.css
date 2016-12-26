@@ -31,4 +31,39 @@ body .si { color: #a31515 } /* Literal.String.Interpol */
 body .sx { color: #a31515 } /* Literal.String.Other */
 body .sr { color: #a31515 } /* Literal.String.Regex */
 body .s1 { color: #a31515 } /* Literal.String.Single */
-body .ss { color: #a31515 } /* Literal.String.Symbol */
+body .ss { color: #a31515 } /* Literal.String.Symbol 
+
+/* 
+These styles are used to highlight each diff line.
+Note: for partial like highlight change to "display:block-inline" 
+*/
+span.left_diff_change {
+  background-color: #FFE5B5;
+  display: block
+}
+span.left_diff_add {
+  background-color: #eeeeee;
+  display: block
+}
+span.left_diff_del {
+  background-color: #ffdddd;
+  display: block
+}
+span.lineno_q {
+  display: block;
+}
+span.right_diff_change {
+  background-color: #FFE5B5;
+  display: block
+}
+span.right_diff_add {
+  background-color: #ddffdd;
+  display: block
+}
+span.right_diff_del {
+  background-color: #eeeeee;
+  display: block
+}
+span.clearbg {
+  background-color: transparent;
+}
