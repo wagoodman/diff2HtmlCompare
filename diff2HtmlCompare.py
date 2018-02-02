@@ -238,7 +238,7 @@ class DiffHtmlFormatter(HtmlFormatter):
         for t, line in inner:
             if t:
                 lncount += 1
-            dummyoutfile.write(line)
+            dummyoutfile.write(unicode(line))
 
         fl = self.linenostart
         mw = len(str(lncount + fl - 1))
