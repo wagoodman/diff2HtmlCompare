@@ -292,7 +292,7 @@ class CodeDiff(object):
         self.fromfile = fromfile
         if fromtxt == None:
             try:
-                with open(fromfile) as f:
+                with io.open(fromfile) as f:
                     self.fromlines = f.readlines()
             except Exception as e:
                 print("Problem reading file %s" % fromfile)
@@ -305,7 +305,7 @@ class CodeDiff(object):
         self.tofile = tofile
         if totxt == None:
             try:
-                with open(tofile) as f:
+                with io.open(tofile) as f:
                     self.tolines = f.readlines()
             except Exception as e:
                 print("Problem reading file %s" % tofile)
@@ -389,7 +389,7 @@ class CodeDiff(object):
         self.htmlContents = HTML_TEMPLATE % answers
 
     def write(self, path):
-        fh = open(path, 'w')
+        fh = io.open(path, 'w')
         fh.write(self.htmlContents)
         fh.close()
 
