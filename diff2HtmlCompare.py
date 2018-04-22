@@ -238,7 +238,12 @@ class DiffHtmlFormatter(HtmlFormatter):
         for t, line in inner:
             if t:
                 lncount += 1
-            dummyoutfile.write(unicode(line))
+
+            # compatibility Python v2/v3
+            if sys.version_info > (3,0):
+                dummyoutfile.write(line)
+            else:
+                dummyoutfile.write(unicode(line))
 
         fl = self.linenostart
         mw = len(str(lncount + fl - 1))
