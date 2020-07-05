@@ -1,0 +1,6 @@
+include LICENSE
+include deps
+recursive-exclude * __pycache__
+recursive-exclude * *.pyc
+recursive-exclude * *.pyo
+prune screenshots

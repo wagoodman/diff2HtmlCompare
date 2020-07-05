@@ -33,7 +33,7 @@ from pygments.formatters import HtmlFormatter
 from pygments.token import *
 
 # Monokai is not quite right yet
-PYGMENTS_STYLES = ["vs", "xcode"] 
+PYGMENTS_STYLES = ["vs", "xcode"]
 
 HTML_TEMPLATE = """
 <!DOCTYPE html>
@@ -134,7 +134,7 @@ class DefaultLexer(RegexLexer):
 
 class DiffHtmlFormatter(HtmlFormatter):
     """
-    Formats a single source file with pygments and adds diff highlights based on the 
+    Formats a single source file with pygments and adds diff highlights based on the
     diff details given.
     """
     isLeft = False
@@ -165,6 +165,7 @@ class DiffHtmlFormatter(HtmlFormatter):
                 else:
                     no = '<span class="lineno_q">' + str(left_no) + "</span>"
             else:
+                # add coverage here
                 if change:
                     if isinstance(left_no, int) and isinstance(right_no, int):
                         no = '<span class="lineno_q lineno_rightchange">' + \
@@ -403,17 +404,19 @@ def show(outputpath):
     path = os.path.abspath(outputpath)
     webbrowser.open('file://' + path)
 
-if __name__ == "__main__":
+
+def cmd():
     description = """Given two source files this application\
-creates an html page which highlights the differences between the two. """
+    creates an html page which highlights the differences between the two. """
 
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-s', '--show', action='store_true',
                         help='show html in a browser.')
-    parser.add_argument('-p', '--print-width', action='store_true', 
-        help='Restrict code to 80 columns wide. (printer friendly in landscape)')
+    parser.add_argument('-p', '--print-width', action='store_true',
+                        help='Restrict code to 80 columns wide. (printer friendly in landscape)')
     parser.add_argument('-c', '--syntax-css', action='store', default="vs",
-        help='Pygments CSS for code syntax highlighting. Can be one of: %s' % str(PYGMENTS_STYLES))
+                        help='Pygments CSS for code syntax highlighting. Can be one of: %s' % str(PYGMENTS_STYLES))
+    parser.add_argument('-o', '--output-path', action='store')
     parser.add_argument('-v', '--verbose', action='store_true', help='show verbose output.')
     parser.add_argument('file1', help='source file to compare ("before" file).')
     parser.add_argument('file2', help='source file to compare ("after" file).')
@@ -423,7 +426,11 @@ creates an html page which highlights the differences between the two. """
     if args.syntax_css not in PYGMENTS_STYLES:
         raise ValueError("Syntax CSS (-c) must be one of %r." % PYGMENTS_STYLES)
 
-    outputpath = "index.html"
+    outputpath = args.output_path or "index.html"
     main(args.file1, args.file2, outputpath, args)
     if args.show:
         show(outputpath)
+
+
+if __name__ == "__main__":
+    cmd()
