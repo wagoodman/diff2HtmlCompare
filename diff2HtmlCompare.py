@@ -414,6 +414,7 @@ creates an html page which highlights the differences between the two. """
         help='Restrict code to 80 columns wide. (printer friendly in landscape)')
     parser.add_argument('-c', '--syntax-css', action='store', default="vs",
         help='Pygments CSS for code syntax highlighting. Can be one of: %s' % str(PYGMENTS_STYLES))
+    parser.add_argument('-o', '--output-path', action='store')
     parser.add_argument('-v', '--verbose', action='store_true', help='show verbose output.')
     parser.add_argument('file1', help='source file to compare ("before" file).')
     parser.add_argument('file2', help='source file to compare ("after" file).')
@@ -423,7 +424,7 @@ creates an html page which highlights the differences between the two. """
     if args.syntax_css not in PYGMENTS_STYLES:
         raise ValueError("Syntax CSS (-c) must be one of %r." % PYGMENTS_STYLES)
 
-    outputpath = "index.html"
+    outputpath = args.output_path or "index.html"
     main(args.file1, args.file2, outputpath, args)
     if args.show:
         show(outputpath)
