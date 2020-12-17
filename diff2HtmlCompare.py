@@ -287,12 +287,12 @@ class CodeDiff(object):
     resetCssFile = "./deps/reset.css"
     jqueryJsFile = "./deps/jquery.min.js"
 
-    def __init__(self, fromfile, tofile, fromtxt=None, totxt=None, name=None):
+    def __init__(self, fromfile, tofile, fromtxt=None, totxt=None, name=None, encoding="utf-8"):
         self.filename = name
         self.fromfile = fromfile
         if fromtxt == None:
             try:
-                with io.open(fromfile) as f:
+                with io.open(fromfile, encoding=encoding) as f:
                     self.fromlines = f.readlines()
             except Exception as e:
                 print("Problem reading file %s" % fromfile)
@@ -305,7 +305,7 @@ class CodeDiff(object):
         self.tofile = tofile
         if totxt == None:
             try:
-                with io.open(tofile) as f:
+                with io.open(tofile, encoding=encoding) as f:
                     self.tolines = f.readlines()
             except Exception as e:
                 print("Problem reading file %s" % tofile)
@@ -344,7 +344,7 @@ class CodeDiff(object):
     def format(self, options):
         self.diffs = self.getDiffDetails(self.fromfile, self.tofile)
 
-        if options.verbose:
+        if options['verbose']:
             for diff in self.diffs:
                 print("%-6s %-80s %-80s" % (diff[2], diff[0], diff[1]))
 
@@ -358,13 +358,13 @@ class CodeDiff(object):
                                      self.diffs,
                                      nobackground=False,
                                      linenos=True,
-                                     style=options.syntax_css)
+                                     style=options['syntax_css'])
 
             try:
                 self.lexer = guess_lexer_for_filename(self.filename, code)
 
             except pygments.util.ClassNotFound:
-                if options.verbose:
+                if options['verbose']:
                     print("No Lexer Found! Using default...")
 
                 self.lexer = DefaultLexer()
@@ -376,20 +376,20 @@ class CodeDiff(object):
         answers = {
             "html_title":     self.filename,
             "reset_css":      self.resetCssFile,
-            "pygments_css":   self.pygmentsCssFile % options.syntax_css,
+            "pygments_css":   self.pygmentsCssFile % options['syntax_css'],
             "diff_css":       self.diffCssFile,
             "page_title":     self.filename,
             "original_code":  codeContents[0],
             "modified_code":  codeContents[1],
             "jquery_js":      self.jqueryJsFile,
             "diff_js":        self.diffJsFile,
-            "page_width":     "page-80-width" if options.print_width else "page-full-width"
+            "page_width":     "page-80-width" if options['print_width'] else "page-full-width"
         }
 
         self.htmlContents = HTML_TEMPLATE % answers
 
-    def write(self, path):
-        fh = io.open(path, 'w')
+    def write(self, path, encoding="utf-8"):
+        fh = io.open(path, 'w', encoding=encoding)
         fh.write(self.htmlContents)
         fh.close()
 
@@ -424,6 +424,7 @@ creates an html page which highlights the differences between the two. """
         raise ValueError("Syntax CSS (-c) must be one of %r." % PYGMENTS_STYLES)
 
     outputpath = "index.html"
-    main(args.file1, args.file2, outputpath, args)
-    if args.show:
+    args = vars(args)
+    main(args['file1'], args['file2'], outputpath, args)
+    if args['show']:
         show(outputpath)
