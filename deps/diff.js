@@ -6,6 +6,7 @@ $( document ).ready(function() {
   var
     $showoriginal  = $('.menuoption#showoriginal'),
     $showmodified  = $('.menuoption#showmodified'),
+    $showchangesonly = $('.menuoption#showchangesonly'),
     $codeprintmargin  = $('.menuoption#codeprintmargin'),
     $highlight  = $('.menuoption#highlight'),
     $dosyntaxhighlight  = $('.menuoption#dosyntaxhighlight');
@@ -46,6 +47,25 @@ $( document ).ready(function() {
       }
   });
 
+ $showchangesonly.state = true
+  $showchangesonly.on("click", function(){
+    switch ($showchangesonly.state) {
+    case true:
+       $('.lineno_leftnodiff').hide()
+       $('.lineno_rightnodiff').hide()
+       $('.left_nodiff').hide()
+       $('.right_nodiff').hide()
+       $showchangesonly.state = false
+        break;
+    case false:
+       $('.lineno_leftnodiff').show()
+       $('.lineno_rightnodiff').show()
+       $('.left_nodiff').show()
+       $('.right_nodiff').show()
+       $showchangesonly.state = true
+        break;
+      }
+  });
 
   $codeprintmargin.state = true
   $codeprintmargin.on("click", function(){

@@ -76,6 +76,10 @@ HTML_TEMPLATE = """
               <label for="showmodified" data-on="&#10004; Modified" data-off="Modified"></label>
             </div>
             <div class="switch">
+              <input id="showchangesonly" class="toggle toggle-yes-no menuoption" type="checkbox" unchecked>
+              <label for="showchangesonly" data-on="&#10004; Changes Only" data-off="Changes Only"></label>
+            </div>
+            <div class="switch">
               <input id="highlight" class="toggle toggle-yes-no menuoption" type="checkbox" checked>
               <label for="highlight" data-on="&#10004; Highlight" data-off="Highlight"></label>
             </div>
@@ -163,7 +167,7 @@ class DiffHtmlFormatter(HtmlFormatter):
                     elif not isinstance(left_no, int) and isinstance(right_no, int):
                         no = '<span class="lineno_q lineno_leftadd">  </span>'
                 else:
-                    no = '<span class="lineno_q">' + str(left_no) + "</span>"
+                    no = '<span class="lineno_q lineno_leftnodiff">' + str(left_no) + "</span>"
             else:
                 if change:
                     if isinstance(left_no, int) and isinstance(right_no, int):
@@ -175,7 +179,7 @@ class DiffHtmlFormatter(HtmlFormatter):
                         no = '<span class="lineno_q lineno_rightadd">' + \
                             str(right_no) + "</span>"
                 else:
-                    no = '<span class="lineno_q">' + str(right_no) + "</span>"
+                    no = '<span class="lineno_q lineno_rightnodiff">' + str(right_no) + "</span>"
 
             retlinenos.append(no)
 
@@ -204,9 +208,11 @@ class DiffHtmlFormatter(HtmlFormatter):
                     else:
                         if left_no <= len(source):
                             i, t = source[left_no - 1]
+                            t = '<span class="left_nodiff">' + t + "</span>"
                         else:
                             i = 1
                             t = left_line
+                            t = '<span class="left_nodiff">' + t + "</span>"
                 else:
                     if change:
                         if isinstance(left_no, int) and isinstance(right_no, int) and right_no <= len(source):
@@ -223,9 +229,11 @@ class DiffHtmlFormatter(HtmlFormatter):
                     else:
                         if right_no <= len(source):
                             i, t = source[right_no - 1]
+                            t = '<span class="right_nodiff">' + t + "</span>"
                         else:
                             i = 1
                             t = right_line
+                            t = '<span class="right_nodiff">' + t + "</span>"
                 yield i, t
             except:
                 # print "WARNING! failed to enumerate diffs fully!"
