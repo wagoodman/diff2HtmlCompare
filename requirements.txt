@@ -1,2 +1,2 @@
 mistune
-pygments
+pygments==2.11
