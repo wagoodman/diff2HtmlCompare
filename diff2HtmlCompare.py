@@ -413,13 +413,19 @@ creates an html page which highlights the differences between the two. """
     parser.add_argument('-p', '--print-width', action='store_true', 
         help='Restrict code to 80 columns wide. (printer friendly in landscape)')
     parser.add_argument('-c', '--syntax-css', action='store', default="vs",
-        help='Pygments CSS for code syntax highlighting. Can be one of: %s' % str(PYGMENTS_STYLES))
+        help='Pygments CSS for code syntax highlighting. Can be one of: %s' % str(PYGMENTS_STYLE    S))
     parser.add_argument('-v', '--verbose', action='store_true', help='show verbose output.')
+    parser.add_argument('-o', "--output", action="store", help="Output file location")
     parser.add_argument('file1', help='source file to compare ("before" file).')
     parser.add_argument('file2', help='source file to compare ("after" file).')
 
     args = parser.parse_args()
-
+    
+    if args.output is None:
+        outputpath = "index.html"
+    else:
+        outputpath = str(args.output) if str(args.output).endswith(".html") else str(args.output + '.html')
+    
     if args.syntax_css not in PYGMENTS_STYLES:
         raise ValueError("Syntax CSS (-c) must be one of %r." % PYGMENTS_STYLES)
 
